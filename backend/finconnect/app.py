@@ -2,9 +2,9 @@ from flask import Flask
 
 from finconnect.ext import configuration
 
-
 def minimal_app(**config):
     app = Flask(__name__)
+    app.url_map.strict_slashes = False
     configuration.init_app(app, **config)
     return app
 
