@@ -1,5 +1,4 @@
-  
-from pydaria.ext.database import db
+from finconnect.ext.database import db
 from sqlalchemy_serializer import SerializerMixin
 
 
