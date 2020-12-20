@@ -1,7 +1,5 @@
 import click
 from finconnect.ext.database import db
-from finconnect.ext.auth import create_user
-from finconnect.models import Product
 
 
 def create_db():
@@ -17,11 +15,3 @@ def init_app(app):
     # add multiple commands in a bulk
     for command in [create_db, drop_db]:
         app.cli.add_command(app.cli.command()(command))
-
-    # # add a single command
-    # @app.cli.command()
-    # @click.option('--username', '-u')
-    # @click.option('--password', '-p')
-    # def add_user(username, password):
-    #     """Adds a new user to the database"""
-    #     return create_user(username, password)
