@@ -1,14 +1,15 @@
 [default]
 DEBUG = false
+SQLALCHEMY_TRACK_MODIFICATIONS = false
 SQLALCHEMY_DATABASE_URI = 'sqlite:///development.db'
-TITLE = "FinConnect"
+TITLE = "finconnect"
 SECRET_KEY = "doguinho"
 PASSWORD_SCHEMES = ['pbkdf2_sha512', 'md5_crypt']
 EXTENSIONS = [
     "finconnect.ext.database:init_app",
     "finconnect.ext.auth:init_app",
     "finconnect.ext.commands:init_app",
-    "finconnect.blueprints.restapi:init_app",
+    "finconnect.blueprints.resources:init_app",
 ]
 
 

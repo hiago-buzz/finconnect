@@ -1,25 +1,7 @@
-SHELL := /bin/bash
-.PHONY: all clean install test 
-
-help:
-	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
-
-all: clean install test 
-
-test:
-	pytest pydaria/tests -v
-
-install:
-	pip install --upgrade pip
-	pip install -r requirements.txt
-	pip install -r requirements_dev.txt
-	pip install -r requirements_test.txt
-
 clean:
-	@find . -name '*.pyc' -exec rm -rf {} \;
-	@find . -name '__pycache__' -exec rm -rf {} \;
-	@find . -name 'Thumbs.db' -exec rm -rf {} \;
-	@find . -name '*~' -exec rm -rf {} \;
+	@find ./ -name '*.pyc' -exec rm -f {} \;
+	@find ./ -name 'Thumbs.db' -exec rm -f {} \;
+	@find ./ -name '*~' -exec rm -f {} \;
 	rm -rf .cache
 	rm -rf build
 	rm -rf dist
@@ -27,3 +9,22 @@ clean:
 	rm -rf htmlcov
 	rm -rf .tox/
 	rm -rf docs/_build
+	pip install -e .[dev] --upgrade --no-cache
+
+install:
+	pip install -e .['dev']
+
+
+init_db:
+	FLASK_APP=finconnect/app.py flask create-db
+	FLASK_APP=finconnect/app.py flask db upgrade
+
+test:
+	FLASK_ENV=test pytest tests/ -v --cov=delivery
+
+format:
+	isort **/*.py
+	black -l 79 **/*.py
+
+run:
+	FLASK_APP=finconnect/app.py FLASK_ENV=development flask run
